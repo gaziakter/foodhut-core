@@ -97,48 +97,86 @@ class Foodhut_Blog_Post extends Widget_Base {
 	 * @access protected
 	 */
 	protected function register_controls() {
+
 		$this->start_controls_section(
-			'section_content',
+			'blog_section',
 			[
-				'label' => __( 'Content', 'elementor-hello-world' ),
+				'label' => esc_html__( 'Blog Section', 'foodhut-core' ),
+				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
 
 		$this->add_control(
-			'title',
+			'post_per_page',
 			[
-				'label' => __( 'Title', 'elementor-hello-world' ),
-				'type' => Controls_Manager::TEXT,
-			]
-		);
-
-		$this->end_controls_section();
-
-		$this->start_controls_section(
-			'section_style',
-			[
-				'label' => __( 'Style', 'elementor-hello-world' ),
-				'tab' => Controls_Manager::TAB_STYLE,
+				'label' => esc_html__( 'Post Per Page', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'default' => 3,
 			]
 		);
 
 		$this->add_control(
-			'text_transform',
+			'cat_list',
 			[
-				'label' => __( 'Text Transform', 'elementor-hello-world' ),
-				'type' => Controls_Manager::SELECT,
-				'default' => '',
+				'label' => esc_html__( 'Category', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::SELECT2,
+				'label_block' => true,
+				'multiple' => true,
+				'options' => post_cat(),
+			]
+		);
+
+		$this->add_control(
+			'cat_exclude',
+			[
+				'label' => esc_html__( 'Category Exclude', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::SELECT2,
+				'label_block' => true,
+				'multiple' => true,
+				'options' => post_cat(),
+			]
+		);
+
+		$this->add_control(
+			'post_exclude',
+			[
+				'label' => esc_html__( 'Post Exclude', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::SELECT2,
+				'label_block' => true,
+				'multiple' => true,
+				'options' => get_all_post(),
+			]
+		);
+
+		$this->add_control(
+			'order',
+			[
+				'label' => esc_html__( 'Order', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'ASC',
 				'options' => [
-					'' => __( 'None', 'elementor-hello-world' ),
-					'uppercase' => __( 'UPPERCASE', 'elementor-hello-world' ),
-					'lowercase' => __( 'lowercase', 'elementor-hello-world' ),
-					'capitalize' => __( 'Capitalize', 'elementor-hello-world' ),
-				],
-				'selectors' => [
-					'{{WRAPPER}} .title' => 'text-transform: {{VALUE}};',
+					'ASC' => esc_html__( 'ASC', 'foodhut-core' ),
+					'DFESC'  => esc_html__( 'DESC', 'foodhut-core' ),
 				],
 			]
 		);
+
+		$this->add_control(
+			'order_by',
+			[
+				'label' => esc_html__( 'Order By', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'date',
+				'options' => [
+					'name' => esc_html__( 'Name', 'foodhut-core' ),
+					'date'  => esc_html__( 'Date', 'foodhut-core' ),
+					'title'  => esc_html__( 'Title', 'foodhut-core' ),
+					'rand'  => esc_html__( 'Rand', 'foodhut-core' ),
+					'id'  => esc_html__( 'ID', 'foodhut-core' ),
+				],
+			]
+		);
+
 
 		$this->end_controls_section();
 	}
@@ -155,25 +193,53 @@ class Foodhut_Blog_Post extends Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 
-		echo '<div class="title">';
-		echo $settings['title'];
-		echo '</div>';
-	}
+		$args = array(
+			'post_type' => 'post',
+			'order' => $settings['order'],
+			'orderby' => $settings['order_by'],
+			'posts_per_page' => !empty($settings['post_per_page']) ? $settings['post_per_page'] : -1,
+			'post__not_in'=> $settings['post_exclude'],
+		);
 
-	/**
-	 * Render the widget output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @access protected
-	 */
-	protected function content_template() {
+		if(!empty($settings['cat_list'] || $settings['cat_exclude'] )){
+			$args['tax_query'] = array(
+				array(
+					'taxonomy' => 'category',
+					'field' => 'slug',
+					'terms' => !empty($settings['cat_exclude']) ?  $settings['cat_exclude'] : $settings['cat_list'],
+					'operator' => !empty($settings['cat_exclude']) ? 'NOT IN' : 'IN',
+				),
+			);
+		}
+
+		$query = new \WP_Query( $args );
 		?>
-		<div class="title">
-			{{{ settings.title }}}
-		</div>
+    <!-- BLOG Section  -->
+    <div id="blog" class="container-fluid bg-dark text-light py-5 text-center wow fadeIn">
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="foods" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="row">
+
+					<?php if ( $query->have_posts() ) : ?>
+						<?php while ( $query->have_posts() ) : $query->the_post();
+						$categories = get_the_category(get_the_ID());
+						?>
+                    <div class="col-md-4 my-3 my-md-0">
+                        <a href="<?php the_permalink(); ?>"class="card bg-transparent border">
+							<?php the_post_thumbnail(); ?>
+                            <div class="card-body">
+                                <h1 class="text-center mb-4"><a href="#" class="badge badge-primary">$5</a></h1>
+                                <h4 class="pt20 pb20"><?php the_title(); ?></h4>
+                                <p class="text-white"><?php the_excerpt(); ?></p>
+                            </div>
+                        </a>
+                    </div>
+					<?php endwhile; wp_reset_postdata(); endif;  ?> 
+
+                </div>
+            </div>
+        </div>
+    </div>
 		<?php
 	}
 }
