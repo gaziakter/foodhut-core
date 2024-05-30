@@ -160,9 +160,9 @@ final class Foodhut_Core {
 
 		$message = sprintf(
 			/* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-			esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'elementor-hello-world' ),
-			'<strong>' . esc_html__( 'Elementor Hello World', 'elementor-hello-world' ) . '</strong>',
-			'<strong>' . esc_html__( 'PHP', 'elementor-hello-world' ) . '</strong>',
+			esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'foodhut-core' ),
+			'<strong>' . esc_html__( 'Foodhut Core', 'foodhut-core' ) . '</strong>',
+			'<strong>' . esc_html__( 'PHP', 'foodhut-core' ) . '</strong>',
 			self::MINIMUM_PHP_VERSION
 		);
 

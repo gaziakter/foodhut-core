@@ -91,6 +91,20 @@ class Foodhut_Core_Plugin {
 		return $tag;
 	}
 
+	/** 
+	 * Add New Category */
+	function add_new_foodhut_widget_categories( $foodhut_category ) {
+
+		$foodhut_category->add_category(
+			'foodhut-category',
+			[
+				'title' => esc_html__( 'Foodhut Category', 'foodhut-core' ),
+				'icon' => 'fa fa-plug',
+			]
+		);
+	
+	}
+
 	/**
 	 * Register Widgets
 	 *
@@ -105,10 +119,12 @@ class Foodhut_Core_Plugin {
 		// Its is now safe to include Widgets files
 		require_once( __DIR__ . '/widgets/hello-world.php' );
 		require_once( __DIR__ . '/widgets/inline-editing.php' );
+		require_once( __DIR__ . '/widgets/foodhut-blog-post.php' );
 
 		// Register Widgets
 		$widgets_manager->register( new Widgets\Hello_World() );
 		$widgets_manager->register( new Widgets\Inline_Editing() );
+		$widgets_manager->register( new Widgets\Foodhut_Blog_Post() );
 	}
 
 	/**
@@ -142,6 +158,9 @@ class Foodhut_Core_Plugin {
 
 		// Register editor scripts
 		add_action( 'elementor/editor/after_enqueue_scripts', [ $this, 'editor_scripts' ] );
+		
+		// Add New Category
+		add_action( 'elementor/elements/categories_registered', [$this, 'add_new_foodhut_widget_categories'] );
 		
 		$this->add_page_settings_controls();
 	}
