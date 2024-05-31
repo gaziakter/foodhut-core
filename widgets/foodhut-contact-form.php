@@ -98,6 +98,7 @@ class Foodhut_Contact_Form extends Widget_Base {
 	 */
 	protected function register_controls() {
 
+		/** Contact form section */
 		$this->start_controls_section(
 			'foodhut_contact_form',
 			[
@@ -127,6 +128,84 @@ class Foodhut_Contact_Form extends Widget_Base {
 			]
 		);
 
+		$this->add_control(
+            'contact_bacgroud_image',
+            [
+                'label' => __( 'Background Image', 'foodhut-core' ),
+                'type' => \Elementor\Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => \Elementor\Utils::get_placeholder_image_src(),
+                ],
+            ]
+        );
+
+		$this->end_controls_section();
+
+		/** Contect info section */
+		$this->start_controls_section(
+			'foodhut_contact_info',
+			[
+				'label' => esc_html__( 'Foodhut Contact Info', 'foodhut-core' ),
+				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'contact_info_title',
+			[
+				'label' => esc_html__( 'Info Title', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'FIND US', 'foodhut-core' ),
+				'placeholder' => esc_html__( 'Type your title here', 'foodhut-core' ),
+				'label_block' => true,
+			]
+		);
+
+		$this->add_control(
+			'contact_info_content',
+			[
+				'label' => esc_html__( 'Info Content', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::TEXTAREA,
+				'default' => esc_html__( '', 'foodhut-core' ),
+				'placeholder' => esc_html__( 'Content here', 'foodhut-core' ),
+			]
+		);
+
+		$this->add_control(
+			'contact_location',
+			[
+				'label' => esc_html__( 'Contact Location', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '12345 Fake ST NoWhere, AB Country', 'foodhut-core' ),
+				'placeholder' => esc_html__( 'Type your adress here', 'foodhut-core' ),
+				'label_block' => true,
+			]
+		);
+
+		$this->add_control(
+			'contact_phone',
+			[
+				'label' => esc_html__( 'Contact Phone', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( '(123) 456-7890', 'foodhut-core' ),
+				'placeholder' => esc_html__( 'Type your title here', 'foodhut-core' ),
+				'label_block' => true,
+			]
+		);
+
+		$this->add_control(
+			'contact_email',
+			[
+				'label' => esc_html__( 'Contact Email', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'info@website.com', 'foodhut-core' ),
+				'placeholder' => esc_html__( 'Type your Email here', 'foodhut-core' ),
+				'label_block' => true,
+			]
+		);
+
+
+
 		$this->end_controls_section();
 
 	}
@@ -145,16 +224,51 @@ class Foodhut_Contact_Form extends Widget_Base {
 		?>
 
     <!-- book a table Section  -->
-    <div class="container-fluid has-bg-overlay text-center text-light has-height-lg middle-items" id="book-table">
+    <div class="container-fluid has-bg-overlay text-center text-light has-height-lg middle-items" style="background-image: url(<?php echo esc_url( $settings['contact_bacgroud_image']['url']);?>);" id="book-table">
         <div class="">
-
 			<?php if(!empty($settings['form_title'])) : ?>
             <h2 class="section-title mb-5"><?php echo esc_html( $settings['form_title'] ); ?></h2>
 			<?php endif; ?>
 
+			<div class="row">
 			<?php if(!empty($settings['shortcode'])) : ?>
 			<?php echo do_shortcode($settings['shortcode']); ?>
 			<?php endif; ?>
+			</div>
+
+        </div>
+    </div>
+
+	    <!-- CONTACT Section  -->
+		<div id="contact" class="container-fluid bg-dark text-light border-top wow fadeIn">
+        <div class="row">
+            <div class="col-md-6 px-0">
+                <div id="map" style="width: 100%; height: 100%; min-height: 400px"></div>
+            </div>
+            <div class="col-md-6 px-5 has-height-lg middle-items">
+				
+				<?php if(!empty($settings['contact_info_title'])) : ?>
+                <h3><?php echo esc_html( $settings['contact_info_title'] ); ?></h3>
+				<?php endif; ?>
+
+				<?php if(!empty($settings['contact_info_content'])) : ?>
+                <p><?php echo esc_html( $settings['contact_info_content'] ); ?></p>
+				<?php endif; ?>
+
+                <div class="text-muted">
+					<?php if(!empty($settings['contact_location'])) : ?>
+                    <p><span class="ti-location-pin pr-3"></span><?php echo esc_html( $settings['contact_location'] ); ?></p>
+					<?php endif; ?>
+
+					<?php if(!empty($settings['contact_phone'])) : ?>
+                    <p><span class="ti-support pr-3"></span><?php echo esc_html( $settings['contact_phone'] ); ?></p>
+					<?php endif; ?>
+
+					<?php if(!empty($settings['contact_email'])) : ?>
+                    <p><span class="ti-email pr-3"></span><?php echo esc_html( $settings['contact_email'] ); ?></p>
+					<?php endif; ?>
+                </div>
+            </div>
         </div>
     </div>
 	<?php
