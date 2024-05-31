@@ -123,6 +123,7 @@ class Foodhut_Core_Plugin {
 		require_once( __DIR__ . '/widgets/foodhut-title.php' );
 		require_once( __DIR__ . '/widgets/foodhut-hero.php' );
 		require_once( __DIR__ . '/widgets/foodhut-about.php' );
+		require_once( __DIR__ . '/widgets/foodhut-menu.php' );
 
 		// Register Widgets
 		$widgets_manager->register( new Widgets\Hello_World() );
@@ -131,6 +132,7 @@ class Foodhut_Core_Plugin {
 		$widgets_manager->register( new Widgets\Foodhut_Title() );
 		$widgets_manager->register( new Widgets\Foodhut_Hero() );
 		$widgets_manager->register( new Widgets\Foodhut_About() );
+		$widgets_manager->register( new Widgets\Foodhut_Menu() );
 	}
 
 	/**
