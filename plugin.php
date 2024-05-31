@@ -120,11 +120,15 @@ class Foodhut_Core_Plugin {
 		require_once( __DIR__ . '/widgets/hello-world.php' );
 		require_once( __DIR__ . '/widgets/inline-editing.php' );
 		require_once( __DIR__ . '/widgets/foodhut-blog-post.php' );
+		require_once( __DIR__ . '/widgets/foodhut-title.php' );
+		require_once( __DIR__ . '/widgets/foodhut-hero.php' );
 
 		// Register Widgets
 		$widgets_manager->register( new Widgets\Hello_World() );
 		$widgets_manager->register( new Widgets\Inline_Editing() );
 		$widgets_manager->register( new Widgets\Foodhut_Blog_Post() );
+		$widgets_manager->register( new Widgets\Foodhut_Title() );
+		$widgets_manager->register( new Widgets\Foodhut_Hero() );
 	}
 
 	/**

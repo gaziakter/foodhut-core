@@ -215,7 +215,7 @@ class Foodhut_Blog_Post extends Widget_Base {
 		$query = new \WP_Query( $args );
 		?>
     <!-- BLOG Section  -->
-    <div id="blog" class="container-fluid bg-dark text-light py-5 text-center wow fadeIn">
+    <div id="" class="container-fluid bg-dark text-light text-center wow fadeIn">
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="foods" role="tabpanel" aria-labelledby="pills-home-tab">
                 <div class="row">
@@ -228,7 +228,7 @@ class Foodhut_Blog_Post extends Widget_Base {
                         <a href="<?php the_permalink(); ?>"class="card bg-transparent border">
 							<?php the_post_thumbnail(); ?>
                             <div class="card-body">
-                                <h1 class="text-center mb-4"><a href="<?php the_title(); ?>" class="badge badge-primary"><?php echo esc_html($price); ?></a></h1>
+                                <h1 class="text-center mb-4"><a href="<?php the_title(); ?>" class="badge badge-primary">$<?php echo esc_html($price); ?></a></h1>
                                 <h4 class="pt20 pb20"><?php the_title(); ?></h4>
                                 <p class="text-white"><?php the_excerpt(); ?></p>
                             </div>
