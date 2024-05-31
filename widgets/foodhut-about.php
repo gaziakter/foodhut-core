@@ -99,9 +99,9 @@ class Foodhut_About extends Widget_Base {
 	protected function register_controls() {
 
 		$this->start_controls_section(
-			'foodhut_hero',
+			'foodhut_about',
 			[
-				'label' => esc_html__( 'Foodhut Hero', 'foodhut-core' ),
+				'label' => esc_html__( 'Foodhut About', 'foodhut-core' ),
 				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -118,12 +118,11 @@ class Foodhut_About extends Widget_Base {
 		);
 
 		$this->add_control(
-			'foohut_sub_title',
+			'foohut_content',
 			[
-				'label' => esc_html__( 'Hero Sub Title', 'foodhut-core' ),
-				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => esc_html__( 'Always fresh & Delightful', 'foodhut-core' ),
-				'placeholder' => esc_html__( 'Type your sub title here', 'foodhut-core' ),
+				'label' => esc_html__( 'About Content', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::TEXTAREA,
+				'placeholder' => esc_html__( 'Type your about content here', 'foodhut-core' ),
 				'label_block' => true,
 			]
 		);
@@ -131,52 +130,13 @@ class Foodhut_About extends Widget_Base {
 		$this->add_control(
             'hero_bacgroud_image',
             [
-                'label' => __( 'Background Image', 'foodhut-core' ),
+                'label' => __( 'About Image', 'foodhut-core' ),
                 'type' => \Elementor\Controls_Manager::MEDIA,
                 'default' => [
                     'url' => \Elementor\Utils::get_placeholder_image_src(),
                 ],
             ]
         );
-
-
-		$this->end_controls_section();
-
-		$this->start_controls_section(
-			'foodhut_button',
-			[
-				'label' => esc_html__( 'Hero Button', 'foodhut-core' ),
-				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
-			]
-		);
-
-		$this->add_control(
-			'foohut_button_text',
-			[
-				'label' => esc_html__( 'Buton Text', 'foodhut-core' ),
-				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => esc_html__( 'View Our gallary', 'foodhut-core' ),
-				'placeholder' => esc_html__( 'Type your title here', 'foodhut-core' ),
-				'label_block' => true,
-			]
-		);
-
-		$this->add_control(
-			'foohut_button_url',
-			[
-				'label' => esc_html__( 'Button Link', 'foodhut-core' ),
-				'type' => \Elementor\Controls_Manager::URL,
-				'options' => [ 'url', 'is_external', 'nofollow' ],
-				'default' => [
-					'url' => '#',
-					'is_external' => true,
-					'nofollow' => true,
-				],
-				'label_block' => true,
-			]
-		);
-
-
 
 		$this->end_controls_section();
 	}
@@ -192,10 +152,6 @@ class Foodhut_About extends Widget_Base {
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
-
-		if ( ! empty( $settings['foohut_button_url']['url'] ) ) {
-			$this->add_link_attributes( 'foohut_button_url', $settings['foohut_button_url'] );
-		}
 		?>
     <!-- header -->
     <header id="home" class="header" style="background-image: url(<?php echo esc_url( $settings['hero_bacgroud_image']['url']);?>);">
