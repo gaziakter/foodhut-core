@@ -119,6 +119,22 @@ class Foodhut_Menu extends Widget_Base {
             ]
         );
 
+		$repeater->add_control(
+			'menu_url',
+			[
+				'label' => esc_html__( 'Menu Link', 'foodhut-core' ),
+				'type' => \Elementor\Controls_Manager::URL,
+				'options' => [ 'url', 'is_external', 'nofollow' ],
+				'default' => [
+					'url' => '',
+					'is_external' => true,
+					'nofollow' => true,
+					// 'custom_attributes' => '',
+				],
+				'label_block' => true,
+			]
+		);
+
 		$this->add_control(
 			'menu_list',
 			[
@@ -152,31 +168,25 @@ class Foodhut_Menu extends Widget_Base {
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
+
+		if ( ! empty( $settings['menu_url']['url'] ) ) {
+			$this->add_link_attributes( 'menu_url', $settings['menu_url'] );
+		}
 		?>
-    <!--  About Section  -->
-    <div id="about" class="container-fluid wow fadeIn" id="about"data-wow-duration="1.5s">
-        <div class="row">
-			<?php if(!empty($settings['about_image'])): ?>
-            <div class="col-lg-6 has-img-bg" style="background-image: url(<?php echo esc_url( $settings['about_image']['url']);?>);"></div>
-			<?php endif; ?>
+    <div class="gallary row">
 
-			<div class="col-lg-6">
-                <div class="row justify-content-center">
-                    <div class="col-sm-8 py-5 my-5">
-						<?php if(!empty($settings['foohut_title'])): ?>
-                        <h2 class="mb-4"><?php echo esc_html( $settings['foohut_title'] ); ?></h2>
-						<?php endif; ?>
-
-						<?php if(!empty($settings['foohut_content'])): ?>
-                        <?php echo wp_kses_post($settings['foohut_content'] ); ?>
-						<?php endif; ?>
-
-                    </div>
-                </div>
-            </div>
+		<?php foreach( $settings['menu_list'] as $item): ?>
+		<?php if(!empty($item['menu_image']['url'])): ?>
+        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
+            <img src="<?php echo esc_url( $item['menu_image']['url']); ?>" alt=" " class="gallary-img">
+            <a <?php $this->print_render_attribute_string( 'menu_url' ); ?> class="gallary-overlay">
+                <i class="gallary-icon ti-plus"></i>
+            </a>
         </div>
-    </div>
+		<?php endif; ?>
+		<?php endforeach; ?>
 
+    </div>
 	<?php
 	}
 }
