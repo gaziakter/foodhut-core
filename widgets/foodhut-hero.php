@@ -128,6 +128,17 @@ class Foodhut_Hero extends Widget_Base {
 			]
 		);
 
+		$this->add_control(
+            'hero_bacgroud_image',
+            [
+                'label' => __( 'Background Image', 'foodhut-core' ),
+                'type' => \Elementor\Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => \Elementor\Utils::get_placeholder_image_src(),
+                ],
+            ]
+        );
+
 
 		$this->end_controls_section();
 
@@ -157,10 +168,9 @@ class Foodhut_Hero extends Widget_Base {
 				'type' => \Elementor\Controls_Manager::URL,
 				'options' => [ 'url', 'is_external', 'nofollow' ],
 				'default' => [
-					'url' => '',
+					'url' => '#',
 					'is_external' => true,
 					'nofollow' => true,
-					// 'custom_attributes' => '',
 				],
 				'label_block' => true,
 			]
@@ -182,12 +192,28 @@ class Foodhut_Hero extends Widget_Base {
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
+
+		if ( ! empty( $settings['foohut_button_url']['url'] ) ) {
+			$this->add_link_attributes( 'foohut_button_url', $settings['foohut_button_url'] );
+		}
 		?>
-	<?php if(!empty($settings['foohut_title'])): ?>
-	<div class="text-center">
-	<h2 class="section-title py-5"><?php echo esc_html($settings['foohut_title']); ?></h2>
-	</div>
+    <!-- header -->
+    <header id="home" class="header" style="background-image: url(<?php echo esc_url( $settings['hero_bacgroud_image']['url']);?>);">
+        <div class="overlay text-white text-center">
+			<?php if(!empty($settings['foohut_title'])): ?>
+            <h1 class="display-2 font-weight-bold my-3"><?php echo esc_html( $settings['foohut_title'] ); ?></h1>
+			<?php endif; ?>
+
+			<?php if(!empty($settings['foohut_sub_title'])): ?>
+            <h2 class="display-4 mb-5"><?php echo esc_html( $settings['foohut_sub_title'] ); ?></h2>
+			<?php endif; ?>
+
+			<?php if(!empty($settings['foohut_button_text'])): ?>
+            <a class="btn btn-lg btn-primary" <?php $this->print_render_attribute_string( 'foohut_button_url' ); ?>><?php echo esc_html( $settings['foohut_button_text'] ); ?></a>
+			<?php endif; ?>
+		</div>
+    </header>
+
 	<?php
-	endif;
 	}
 }
