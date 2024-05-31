@@ -41,3 +41,11 @@ function harry_get_cat_data($categories = [],$delimeter = ' ',$term = 'slug'){
     }
     return implode($delimeter, $slugs);
 }
+
+
+// Enqueue scripts
+function google_maps_widget_scripts() {
+    wp_enqueue_script( 'google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY', array(), null, true );
+    wp_enqueue_script( 'google-maps-widget', plugins_url( '/assets/js/google-maps-widget.js', __FILE__ ), array('jquery', 'google-maps-api'), null, true );
+}
+add_action( 'wp_enqueue_scripts', 'google_maps_widget_scripts' );
