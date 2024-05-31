@@ -129,6 +129,7 @@ class Foodhut_Core_Plugin {
 		$widgets_manager->register( new Widgets\Inline_Editing() );
 		$widgets_manager->register( new Widgets\Foodhut_Blog_Post() );
 		$widgets_manager->register( new Widgets\Foodhut_Title() );
+		$widgets_manager->register( new Widgets\Foodhut_Hero() );
 		$widgets_manager->register( new Widgets\Foodhut_About() );
 	}
 

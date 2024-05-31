@@ -111,7 +111,7 @@ class Foodhut_About extends Widget_Base {
 			[
 				'label' => esc_html__( 'Hero Title', 'foodhut-core' ),
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => esc_html__( 'Food Hut', 'foodhut-core' ),
+				'default' => esc_html__( 'About Us', 'foodhut-core' ),
 				'placeholder' => esc_html__( 'Type your title here', 'foodhut-core' ),
 				'label_block' => true,
 			]
@@ -121,14 +121,14 @@ class Foodhut_About extends Widget_Base {
 			'foohut_content',
 			[
 				'label' => esc_html__( 'About Content', 'foodhut-core' ),
-				'type' => \Elementor\Controls_Manager::TEXTAREA,
+				'type' => \Elementor\Controls_Manager::WYSIWYG,
 				'placeholder' => esc_html__( 'Type your about content here', 'foodhut-core' ),
 				'label_block' => true,
 			]
 		);
 
 		$this->add_control(
-            'hero_bacgroud_image',
+            'about_image',
             [
                 'label' => __( 'About Image', 'foodhut-core' ),
                 'type' => \Elementor\Controls_Manager::MEDIA,
@@ -153,22 +153,29 @@ class Foodhut_About extends Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 		?>
-    <!-- header -->
-    <header id="home" class="header" style="background-image: url(<?php echo esc_url( $settings['hero_bacgroud_image']['url']);?>);">
-        <div class="overlay text-white text-center">
-			<?php if(!empty($settings['foohut_title'])): ?>
-            <h1 class="display-2 font-weight-bold my-3"><?php echo esc_html( $settings['foohut_title'] ); ?></h1>
+    <!--  About Section  -->
+    <div id="about" class="container-fluid wow fadeIn" id="about"data-wow-duration="1.5s">
+        <div class="row">
+			<?php if(!empty($settings['about_image'])): ?>
+            <div class="col-lg-6 has-img-bg" style="background-image: url(<?php echo esc_url( $settings['about_image']['url']);?>);"></div>
 			<?php endif; ?>
 
-			<?php if(!empty($settings['foohut_sub_title'])): ?>
-            <h2 class="display-4 mb-5"><?php echo esc_html( $settings['foohut_sub_title'] ); ?></h2>
-			<?php endif; ?>
+			<div class="col-lg-6">
+                <div class="row justify-content-center">
+                    <div class="col-sm-8 py-5 my-5">
+						<?php if(!empty($settings['foohut_title'])): ?>
+                        <h2 class="mb-4"><?php echo esc_html( $settings['foohut_title'] ); ?></h2>
+						<?php endif; ?>
 
-			<?php if(!empty($settings['foohut_button_text'])): ?>
-            <a class="btn btn-lg btn-primary" <?php $this->print_render_attribute_string( 'foohut_button_url' ); ?>><?php echo esc_html( $settings['foohut_button_text'] ); ?></a>
-			<?php endif; ?>
-		</div>
-    </header>
+						<?php if(!empty($settings['foohut_content'])): ?>
+                        <?php echo wp_kses_post($settings['foohut_content'] ); ?>
+						<?php endif; ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<?php
 	}
